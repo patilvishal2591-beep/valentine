@@ -107,11 +107,11 @@ update();
 
 function confetti(){for(let i=0;i<60;i++){let s=document.createElement('div');s.textContent=['💖','💕','💘','❤️','🌹'][Math.floor(Math.random()*5)];s.style.position='fixed';s.style.left=Math.random()*100+'vw';s.style.top='-20px';s.style.fontSize='22px';s.style.transition='transform 3s linear';document.body.appendChild(s);setTimeout(()=>{s.style.transform='translateY(110vh)'},10);setTimeout(()=>s.remove(),3200);}}
 
-// start music on first interaction (browser safe autoplay)
+// try autoplay on load (best effort — some mobiles still require touch)
 const bgm=document.getElementById('bgm');
-document.addEventListener('click', async () => {
-  try { await bgm.play(); } catch(e) { console.log('Autoplay blocked until interaction'); }
-}, { once: true });
+window.addEventListener('DOMContentLoaded',()=>{bgm.play().catch(()=>{});});
+window.addEventListener('load',()=>{bgm.play().catch(()=>{});});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)bgm.play().catch(()=>{});});
 </script>
 </body>
 </html>
