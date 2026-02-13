@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valentine Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(-45deg,#ff758c,#ff7eb3,#fad0c4,#ffd1ff);background-size:400% 400%;animation:bgMove 12s ease infinite;font-family:Poppins,sans-serif}
+@keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.card{width:520px;height:600px;background:white;border-radius:26px;padding:20px;box-shadow:0 25px 60px rgba(0,0,0,.25);position:relative;text-align:center}
+.title{font-family:'Great Vibes',cursive;font-size:42px;color:#ff2e6e;margin:5px}
+.progressBox{width:100%;height:22px;background:#ffd6e6;border-radius:20px;margin:15px 0;overflow:hidden}
+.bar{height:100%;width:0;background:#ff2e6e;color:white;font-size:13px;display:flex;align-items:center;justify-content:center;transition:width .4s}
+.q{margin-top:18px;font-weight:500}
+.opt{display:block;margin:6px;padding:10px;border-radius:14px;background:#ffe6f0;cursor:pointer}
+.opt:hover{background:#ffd0e4}
+.hidden{display:none}
+button{margin-top:18px;padding:10px 18px;border:none;border-radius:20px;background:#ff2e6e;color:white;font-weight:600;cursor:pointer}
+.proposal{display:none;margin-top:20px}
+.proposal button{position:absolute;background:#ff2e6e;color:#fff}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="title">Vaidehi Relationship Test 💖</div>
+<div class="progressBox"><div id="bar" class="bar">0%</div></div>
+
+<div id="q1">
+<div class="q">1) Your 1st Valentine gift</div>
+<label class="opt"><input type="radio" name="q1" value="a"> White Roses</label>
+<label class="opt"><input type="radio" name="q1" value="b"> Teddy</label>
+<label class="opt"><input type="radio" name="q1" value="c"> Clothes</label>
+<label class="opt"><input type="radio" name="q1" value="d"> Ring</label>
+<button onclick="checkQ(1,'b')">Submit</button>
+</div>
+
+<div id="q2" class="hidden">
+<div class="q">2) On our 1st Valentine, 1st thing you feed me?</div>
+<label class="opt"><input type="radio" name="q2" value="a"> Lemon Rice</label>
+<label class="opt"><input type="radio" name="q2" value="b"> Chocolate</label>
+<label class="opt"><input type="radio" name="q2" value="c"> Red Grapes</label>
+<label class="opt"><input type="radio" name="q2" value="d"> Cake</label>
+<button onclick="checkQ(2,'c')">Submit</button>
+</div>
+
+<div id="q3" class="hidden">
+<div class="q">3) One thing you don't like about me?</div>
+<label class="opt"><input type="radio" name="q3" value="a"> Possesive</label>
+<label class="opt"><input type="radio" name="q3" value="b"> Gaming</label>
+<label class="opt"><input type="radio" name="q3" value="c"> Not listening yours</label>
+<label class="opt"><input type="radio" name="q3" value="d"> None of the above</label>
+<button onclick="checkQ(3,'d')">Submit</button>
+</div>
+
+<div id="q4" class="hidden">
+<div class="q">4) Riddle: The more you take, the more you leave behind. What am I?</div>
+<input id="riddle" placeholder="Type answer">
+<button onclick="checkRiddle()">Submit</button>
+</div>
+
+<div id="proposal" class="proposal">
+<h2>Will you be my Valentine Vaidehi? 💝</h2>
+<button id="yesBtn">YES</button>
+<button id="noBtn">NO</button>
+</div>
+</div>
+
+<script>
+let percent=0,correct=[false,false,false,false];
+function update(){document.getElementById('bar').style.width=percent+'%';document.getElementById('bar').innerText=percent+'%'}
+function wrong(name){percent=Math.max(0,percent-10);update();document.querySelectorAll(`input[name=${name}]`).forEach(i=>i.checked=false)}
+function next(id){document.getElementById('q'+id).classList.add('hidden');if(id<4)document.getElementById('q'+(id+1)).classList.remove('hidden');else document.getElementById('proposal').style.display='block'}
+function checkQ(n,ans){let v=document.querySelector(`input[name=q${n}]:checked`);if(!v)return; if(v.value===ans&&!correct[n-1]){percent+=25;correct[n-1]=true;update();next(n)}else wrong('q'+n)}
+function checkRiddle(){let a=document.getElementById('riddle').value.toLowerCase().trim();if(a==='footsteps'&&!correct[3]){percent+=25;correct[3]=true;update();next(4)}else{percent=Math.max(0,percent-10);update();document.getElementById('riddle').value=''}}
+
+const yes=document.getElementById('yesBtn'),no=document.getElementById('noBtn'),box=document.querySelector('.card');
+let attempts=0,canClick=false;
+function rand(btn){btn.style.left=Math.random()*(box.clientWidth-100)+'px';btn.style.top=Math.random()*(box.clientHeight-60)+'px'}
+
+document.addEventListener('mousemove',e=>{
+ if(document.getElementById('proposal').style.display==='block'){
+   [yes,no].forEach(b=>{
+     if(b===yes && canClick) return;
+     let r=b.getBoundingClientRect();
+     let d=Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2));
+     if(d<45){
+       if(b===yes && !canClick){attempts++; if(attempts>=9){canClick=true; return;}}
+       rand(b);
+     }
+   })
+ }
+});
+
+yes.onclick=e=>{
+ if(!canClick){e.preventDefault();rand(yes);return}
+ document.getElementById('proposal').innerHTML='<h2>Happy Valentine\'s Day Vaidehi ❤️</h2><p>You are my today and all of my tomorrows. Every moment with you feels like home. I love you endlessly 💞</p>';
+};
+no.onclick=e=>{e.preventDefault();rand(no)};
+update();
+</script>
+</body>
+</html>
