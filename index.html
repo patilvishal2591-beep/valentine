@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Valentine Quiz</title>
+<title>Vishal Love Vaidehi</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
@@ -61,11 +61,15 @@ button{margin-top:18px;padding:10px 18px;border:none;border-radius:20px;backgrou
 </div>
 
 <div id="proposal" class="proposal">
-<h2>Will you be my Valentine Vaidehi? 💝</h2>
+<h2>Will you be my Valentine, Vaidehi? 💝</h2>
 <button id="yesBtn">YES</button>
 <button id="noBtn">NO</button>
 </div>
 </div>
+
+<audio id="bgm" loop preload="auto">
+  <source src="https://patilvishal2591-beep.github.io/valentine/sanson_ki_mala_pe.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 let percent=0,correct=[false,false,false,false];
@@ -95,10 +99,18 @@ document.addEventListener('mousemove',e=>{
 
 yes.onclick=e=>{
  if(!canClick){e.preventDefault();rand(yes);return}
- document.getElementById('proposal').innerHTML='<h2>Happy Valentine\'s Day Vaidehi ❤️</h2><p>You are my today and all of my tomorrows. Every moment with you feels like home. I love you endlessly 💞</p>';
+ confetti();document.getElementById('proposal').innerHTML='<h2>Happy Valentine\'s Day Vaidehi ❤️</h2><p>You are my today and all of my tomorrows. Every moment with you feels like home.</p><p>— Yours Vishal 💞</p>';
 };
 no.onclick=e=>{e.preventDefault();rand(no)};
 update();
+
+function confetti(){for(let i=0;i<60;i++){let s=document.createElement('div');s.textContent=['💖','💕','💘','❤️','🌹'][Math.floor(Math.random()*5)];s.style.position='fixed';s.style.left=Math.random()*100+'vw';s.style.top='-20px';s.style.fontSize='22px';s.style.transition='transform 3s linear';document.body.appendChild(s);setTimeout(()=>{s.style.transform='translateY(110vh)'},10);setTimeout(()=>s.remove(),3200);}}
+
+// start music on first interaction (browser safe autoplay)
+const bgm=document.getElementById('bgm');
+document.addEventListener('click', () => {
+  bgm.play().catch(()=>{});
+}, { once: true });
 </script>
 </body>
 </html>
