@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Vishal Love Vaidehi</title>
+<title>Vishal 💖 Vaidehi</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
@@ -67,8 +67,9 @@ button{margin-top:18px;padding:10px 18px;border:none;border-radius:20px;backgrou
 </div>
 </div>
 
-<audio id="bgm" loop preload="auto">
+<audio id="bgm" loop preload="auto" playsinline>
   <source src="https://patilvishal2591-beep.github.io/valentine/sanson_ki_mala_pe.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
 </audio>
 
 <script>
@@ -108,8 +109,8 @@ function confetti(){for(let i=0;i<60;i++){let s=document.createElement('div');s.
 
 // start music on first interaction (browser safe autoplay)
 const bgm=document.getElementById('bgm');
-document.addEventListener('click', () => {
-  bgm.play().catch(()=>{});
+document.addEventListener('click', async () => {
+  try { await bgm.play(); } catch(e) { console.log('Autoplay blocked until interaction'); }
 }, { once: true });
 </script>
 </body>
